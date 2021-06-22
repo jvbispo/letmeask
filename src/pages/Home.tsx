@@ -5,18 +5,18 @@ import logoGoogle from "../assets/google-icon.svg";
 import "../styles/auth.scss";
 import { Button } from "../components/Button";
 import { useHistory } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
-import {firebase, auth} from '../services/firebase'
+
 
 export const Home = () => {
   const history = useHistory();
+  const {user, signInWithGoogle} = useAuth();
 
   function handleCreateRoom() {
-    const provider = new firebase.auth.GoogleAuthProvider()
-
-    auth.signInWithPopup(provider).then(res => {
-      console.log(res);
-    })
+    if(!user){
+      signInWithGoogle();
+    }
 
     history.push('/rooms/new');
   }
